@@ -53,8 +53,7 @@ is_drone - based on DETECTION_THRESHOLD
 ## models
 
 ```
-models/drone_detector_3kHz_N20_v1.tflite 
-models/drone_detector_3kHz_N20_v1.h
+Trained models available in person :) 
 ```
 
 Input shape  [ 1  193  39 1 ]
