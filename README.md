@@ -25,7 +25,7 @@ Threshold currently set at knob level = 6 which translates to DETECTION_THRESHOL
 ## python
 
 ```
-python/realltime_pipeline.py 
+python/realtime_pipeline.py 
 ```
 
 Internal parameters that the model was trained on (do not change):
