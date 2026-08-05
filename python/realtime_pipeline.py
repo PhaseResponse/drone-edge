@@ -24,7 +24,6 @@ import numpy as np
 from scipy.signal import spectrogram as sg
 
 #--- parameters ------------#
-CHANNELS = [0, 1, 2, 3]   # microphones
 TARGET_RMS = 0.1          # mic fusion target RMS level (relative to full scale)
 MAX_GAIN = 3.0            # mic fusion gain multiplier
 COMP_THRESHOLD = 0.9      # compression threshold 
@@ -37,7 +36,7 @@ FMAX = 3000               # spectrogram max frequency [Hz]
 VMIN = -150               # spectrogram min power [dB]
 VMAX = -80                # spectrogram max power [dB]
 
-N_SEGMENT = N_FFT * 20    # samples per segment
+N_SEGMENT = N_FFT * 20    # samples per segment. 1.28s @ 16kHz.
 N_FFT_HOPS = 4            # hop size in units of N_FFT. Default 256ms.
 
 DETECTION_THRESHOLD = 0.974  # drone/no-drone detection threshold, 6 on level_to_threshold scale

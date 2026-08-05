@@ -19,24 +19,20 @@ Edge deployment model and pipeline.
 
 Pipeline: sliding_windows → combine_channels → samples_to_spectrogram → [TFLite model] → is_drone
 
-[level_to_threshold] is callable at any time — converts dial position (0-10) to a threshold value for is_drone, for easy field calibration.
-Threshold currently set at knob level = 6 which translates to DETECTION_THRESHOLD = 0.974, based on validation set knee of PR-curve.
+[level_to_threshold] can be called between detections — converts dial position (0-10) to a threshold value for is_drone, for easy field calibration.
 
 ## python
 
 ```
 python/realtime_pipeline.py 
 ```
+Safe to change:
 
-Internal parameters that the model was trained on (do not change):
+DETECTION_THRESHOLD: Drone / no-drone detection threshold, currently set at knob level = 6 which translates to 0.974, based on validation set knee of PR-curve.
 
-N_FFT = 1024 sample window
+N_FFT_HOPS: Input buffer hop size in units of fft window size (which is set in model to 1024 samples), default N_FFT_HOPS = 4 which translates to 256ms @ 16kHz.
 
-N_OVERLAP = 512 samples
-
-FS = 16000 Hz sampling rate
-
-N_SEGMENT = N_FFT * 20 = samples per segment = 1.28 seconds/segment
+The other parameters are fixed to the trained model, do not change (see parameter descriptions in python code comments).
 
 Functions:
 
@@ -59,4 +55,11 @@ Trained models available in person :)
 Input shape  [ 1  193  39 1 ]
 
 Output shape [ 1 ]
+
+## Timing and Memory
+
+Current model configurations translate to a latency of 20 [segments] * 1024 [samples] @16kHz = 1.28s
+Model inference and spectrogram adds a negligible 1.38ms (CPU profiling).
+
+TFLite model size 424KB.
 
