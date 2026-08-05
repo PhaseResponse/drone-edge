@@ -38,6 +38,7 @@ VMIN = -150               # spectrogram min power [dB]
 VMAX = -80                # spectrogram max power [dB]
 
 N_SEGMENT = N_FFT * 20    # samples per segment
+N_FFT_HOPS = 4            # hop size in units of N_FFT. Default 256ms.
 
 DETECTION_THRESHOLD = 0.974  # drone/no-drone detection threshold, 6 on level_to_threshold scale
 
@@ -73,13 +74,14 @@ def samples_to_spectrogram(audio, fs=FS, n_fft=N_FFT, n_overlap=N_OVERLAP, fmax=
     return Sxx_db.astype(np.float32)
 
 
-def sliding_windows(buffer, window_samples=N_SEGMENT):
-    """buffer: (n_samples, 4) arbitrarily long -> list of non-overlapping (N_SEGMENT, 4) windows"""
+def sliding_windows(buffer, window_samples=N_SEGMENT, N_FFT_HOPS=4):
+    """buffer: (n_samples, 4) arbitrarily long -> list of (N_SEGMENT, 4) windows."""
+    hop_samples = N_FFT_HOPS * N_FFT
     windows = []
-    for start in range(0, len(buffer) - window_samples + 1, window_samples):
+    for start in range(0, len(buffer) - window_samples + 1, hop_samples):
         windows.append(buffer[start:start + window_samples])
     return windows
-
+    
 
 def is_drone(logit, threshold=DETECTION_THRESHOLD):
     """logit: raw model output, True if sigmoid(logit) >= threshold"""
