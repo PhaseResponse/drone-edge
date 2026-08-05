@@ -32,7 +32,7 @@ DETECTION_THRESHOLD: Drone / no-drone detection threshold, currently set at knob
 
 N_FFT_HOPS: Input buffer hop size in units of fft window size (which is set in model to 1024 samples), default hop = 4*1024 [samples] which translates to 256ms @ 16kHz.
 
-The other parameters are fixed to the trained model, do not change (see parameter descriptions in python code comments).
+The other parameters are fixed to the trained model, do not change. _See parameter descriptions in python code comments_.
 
 Functions:
 
@@ -58,7 +58,7 @@ Output shape [ 1 ]
 
 ## Timing and Memory
 
-Current model configurations translate to a latency of 20 [segments] * 1024 [samples] @16kHz = 1.28s
+Current model configurations translate to a latency of 20 [segments] * 1024 [samples] @16kHz = 1.28s.  
 Model inference and spectrogram add a negligible 1.38ms (CPU profiling).
 
 TFLite model size 424KB.
