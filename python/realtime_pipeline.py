@@ -2,7 +2,8 @@
 input audio samples (n, 4ch)
         |
         v
-  sliding_windows()  --> list of (N_SEGMENT, 4) windows
+  sliding_windows()  --> list of (N_SEGMENT, 4) windows   
+  [NOT INCLUDED]
         |
         v
    combine_channels()   --> combined mono signal
@@ -24,7 +25,7 @@ import numpy as np
 from scipy.signal import spectrogram as sg
 
 #--- user configurable parameters ------------#
-N_FFT_HOPS = 4            # hop size in units of N_FFT. Default 256ms.
+N_FFT_HOPS = 4            # hop size in units of N_FFT. Default 256ms.  Used in sliding_windows [NOT INCLUDED]
 DETECTION_THRESHOLD = 0.974  # drone/no-drone detection threshold, 6 on level_to_threshold scale
 
 
@@ -41,7 +42,7 @@ FMAX = 3000               # spectrogram max frequency [Hz]
 VMIN = -150               # spectrogram min power [dB]
 VMAX = -80                # spectrogram max power [dB]
 
-N_SEGMENT = N_FFT * 20    # samples per segment. 1.28s @ 16kHz.
+N_SEGMENT = N_FFT * 20    # samples per segment. 1.28s @ 16kHz. Used in sliding_windows [NOT INCLUDED]
 
 
 def combine_channels(buffer, channels=None):
@@ -73,15 +74,6 @@ def samples_to_spectrogram(audio, fs=FS, n_fft=N_FFT, n_overlap=N_OVERLAP, fmax=
     Sxx_db = np.clip(Sxx_db, VMIN, VMAX)
     Sxx_db = (Sxx_db - VMIN) / (VMAX - VMIN)
     return Sxx_db.astype(np.float32)
-
-
-def sliding_windows(buffer, window_samples=N_SEGMENT, N_FFT_HOPS=4):
-    """buffer: (n_samples, 4) arbitrarily long -> list of (N_SEGMENT, 4) windows."""
-    hop_samples = N_FFT_HOPS * N_FFT
-    windows = []
-    for start in range(0, len(buffer) - window_samples + 1, hop_samples):
-        windows.append(buffer[start:start + window_samples])
-    return windows
     
 
 def is_drone(logit, threshold=DETECTION_THRESHOLD):

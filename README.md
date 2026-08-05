@@ -38,7 +38,7 @@ Functions:
 
 level_to_threshold - set threshold for is_drone
 
-sliding_windows - extract segment of size N_SEGMENT  for spectrogram
+sliding_windows - extract segment of size N_SEGMENT for spectrogram [NOT INCLUDED, implement for target HW]
 
 combine_channels - supports 1 to N channels, tested on 1 and 4 channels
 
