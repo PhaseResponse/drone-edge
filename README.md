@@ -88,3 +88,10 @@ CNN results may shift with additional application-specific target HW data and sc
 ## References
 [2] Batear by TN, founder of batear.io: https://github.com/batear-io/batear
 
+## Tests
+
+Run the preprocessing contract tests with unittest:
+
+```bash
+python3 -m unittest discover -s tests -v
+```

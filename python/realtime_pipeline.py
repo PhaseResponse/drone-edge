@@ -67,7 +67,20 @@ def combine_channels(buffer, channels=None):
 
 def samples_to_spectrogram(audio, fs=FS, n_fft=N_FFT, n_overlap=N_OVERLAP, fmax=FMAX):
     """audio: combined mono 1D array -> spectrogram, clipped and normalized [0,1]"""
-    f, t, Sxx = sg(audio, fs=fs, nperseg=n_fft, noverlap=n_overlap)
+    # Keep model-input preprocessing parameters explicit and reproducible.
+    f, _, Sxx = sg(
+        audio,
+        fs=fs,
+        window=("tukey", 0.25),
+        nperseg=n_fft,
+        noverlap=n_overlap,
+        nfft=None,
+        detrend="constant",
+        return_onesided=True,
+        scaling="density",
+        axis=-1,
+        mode="psd",
+    )
     Sxx_db = 10 * np.log10(Sxx + 1e-12)
     freq_mask = f <= fmax
     Sxx_db = Sxx_db[freq_mask, :]
