@@ -63,3 +63,28 @@ Model inference and spectrogram add 1.38ms per call (CPU profiling).  1.38*4[ de
 
 TFLite model size 424KB.
 
+TFLite conversion reduces model size by ~8x compared to the Pytorch float model <sup>*</sup>.
+
+| Model                   | Processing time      | Memory      |
+|-------------------------|----------------------|-------------|
+| Batear                  | 0.85 ms              |   -         |
+| CNN (pytorch float)     | 1.38 ms              | 3.35 MB     |
+| CNN (pytorch quantized) | 1.37 ms              | 1.77 MB     |
+| CNN (TFLite)            |  -                   |  424 KB     |
+
+_CNN timing includes spectrogram computation.  Timing measured on CPU._
+_<sup>*</sup> Pytorch model memory estimated by torchinfo, includes model weights, input tensor, and forward-pass activations._
+
+## classification results
+Batear algorithm is used as benchmark [2].
+
+PR curves show that CNN mAP 0.99 substantially outperforms Batear mAP 0.45 on the same 4-channel test set.
+CNN f1-score is significantly higher than Batear, although Batear is evaluated at default threshold while the CNN threshold is tuned on validation set.
+The fused 4-mic input to the CNN raises mAP by ~0.60, from a mean of ~0.39 across individual channels to 0.99.
+CNN results may shift with additional application-specific target HW data and scenarios.
+
+<img src="images/pr_curve_4ch.png" width="70%">
+
+## References
+[2] Batear by TN, founder of batear.io: https://github.com/batear-io/batear
+
