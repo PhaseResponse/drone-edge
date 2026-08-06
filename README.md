@@ -26,25 +26,30 @@ Pipeline: sliding_windows → combine_channels → samples_to_spectrogram → [T
 ```
 python/realtime_pipeline.py 
 ```
-Safe to change:
+### Safe to change
 
-`DETECTION_THRESHOLD` - Drone / no-drone detection threshold, currently set at knob level = 6 which translates to 0.974, based on validation set knee of PR-curve.
+```
+DETECTION_THRESHOLD    # Drone / no-drone detection threshold, currently set at knob level = 6 which translates to 0.974, based on validation set knee of PR-curve.
 
-`N_FFT_HOPS` - Input buffer hop size in units of fft window size (which is set in model to 1024 samples), default hop = 4*1024 [samples] which translates to 256ms @ 16kHz. 
+N_FFT_HOPS             # Input buffer hop size in units of fft window size (which is set in model to 1024 samples), default hop = 4*1024 [samples] which translates to 256ms @ 16kHz. 
+```
 
-The other parameters are fixed to the trained model, do not change. _See parameter descriptions in python code comments_.
+### Do not change
+The other parameters are fixed to the trained model. _See parameter descriptions in python code comments_.
 
-Functions:
+### Functions
 
-`level_to_threshold` - set threshold for `is_drone`
+```
+level_to_threshold     # set threshold for is_drone
 
-`sliding_windows` - extract segment of size `N_SEGMENT` for spectrogram [NOT INCLUDED, implement for target HW]
+sliding_windows        # extract segment of size N_SEGMENT for spectrogram [NOT INCLUDED, implement for target HW]
 
-`combine_channels` - supports 1 to N channels, tested on 1 and 4 channels
+combine_channels       # supports 1 to N channels, tested on 1 and 4 channels
 
-`samples_to_spectrogram` - configured for drone harmonics
+samples_to_spectrogram # configured for drone harmonics
 
-`is_drone` - based on `DETECTION_THRESHOLD`
+is_drone               # based on DETECTION_THRESHOLD
+```
 
 ## models
 
