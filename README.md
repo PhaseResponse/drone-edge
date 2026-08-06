@@ -64,7 +64,7 @@ Output shape [ 1 ]
 ## Timing and Memory
 
 Current model configurations translate to a latency of 20 * 1024 [samples] @16kHz = 1.28s.    
-Model inference and spectrogram add 1.38ms per call (CPU profiling).  1.38*4[ default N_FFT_HOPS ] = 5.4ms.
+Model inference and spectrogram add 1.38ms per call (CPU profiling).  
 
 TFLite model size 424KB.
 
