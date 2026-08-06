@@ -32,6 +32,11 @@ python/realtime_pipeline.py
 DETECTION_THRESHOLD    # Drone / no-drone detection threshold, currently set at knob level = 6 which translates to 0.974, based on validation set knee of PR-curve.
 
 N_FFT_HOPS             # Input buffer hop size in units of fft window size (which is set in model to 1024 samples), default hop = 4*1024 [samples] which translates to 256ms @ 16kHz. 
+
+# Normalization parameters for mic channel fusion  
+TARGET_RMS             # Target RMS level (relative to full scale)  
+MAX_GAIN               # Gain multiplier  
+COMP_THRESHOLD         # Threshold to begin compression   
 ```
 
 ### Do not change
