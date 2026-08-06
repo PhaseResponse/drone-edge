@@ -36,7 +36,7 @@ The other parameters are fixed to the trained model, do not change. _See paramet
 
 Functions:
 
-`level_to_threshold` - set threshold for is_drone
+`level_to_threshold` - set threshold for `is_drone`
 
 `sliding_windows` - extract segment of size `N_SEGMENT` for spectrogram [NOT INCLUDED, implement for target HW]
 
