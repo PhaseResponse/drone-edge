@@ -94,9 +94,8 @@ _<sup>*</sup> Pytorch model memory estimated by torchinfo, includes model weight
 ## classification results
 Batear algorithm is used as benchmark [2].
 
-PR curves show that CNN mAP 0.998 substantially outperforms Batear mAP on the same 4-channel test set.  
-CNN f1-score is significantly higher than Batear, although Batear is evaluated at default threshold while the CNN threshold is tuned on validation set.  
-The fused 4-mic input to the CNN raises mAP by ~0.40, from a mean of ~0.60 across individual channels to ~1.00. The Batear algorithm also benefits phase aligned channel fusion.  
+PR curves show that CNN mAP 0.998 substantially outperforms Batear mAP on the same 4-channel test set. CNN f1-score is also significantly higher than Batear, although Batear is evaluated at default threshold while the CNN threshold is tuned on validation set.  
+Channel fusion raises CNN mAP by ~0.40, from a mean of ~0.60 across individual channels to ~1.00, where mAP is further increased by phase alignment compared to a naive sum.  Batear algorithm also benefits from phase alignment.    
 CNN results may shift with additional application-specific target HW data and scenarios.  
 
 <img src="images/pr_curve_4ch_tdoa_naive.png" width="100%">
