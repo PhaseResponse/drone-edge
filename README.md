@@ -87,15 +87,16 @@ TFLite model size 424KB. TFLite conversion reduces model size by ~8x compared to
 | Naive channel fusion         |   0.09 ms         |   -       |
 | Phase aligned channel fusion | 722.53 ms         |   -       |
 | CNN (TFLite)                 |     -             |  424 KB   |  
+
 _CNN timing includes spectrogram computation.  Timing measured on CPU._  
 _<sup>*</sup> Pytorch model memory estimated by torchinfo, includes model weights, input tensor, and forward-pass activations._
 
 ## classification results
 Batear algorithm is used as benchmark [2].
 
-PR curves show that CNN mAP 0.998 substantially outperforms Batear mAP 0.45 on the same 4-channel test set.  
-CNN f1-score is significantly higher than Batear, although Batear is evaluated at default threshold while the CNN threshold is tuned on validation set.
-The fused 4-mic input to the CNN raises mAP by ~0.40, from a mean of ~0.60 across individual channels to ~1.00. The Batear algorithm also benefits from phase aligned channel fusion.
+PR curves show that CNN mAP 0.998 substantially outperforms Batear mAP on the same 4-channel test set.  
+CNN f1-score is significantly higher than Batear, although Batear is evaluated at default threshold while the CNN threshold is tuned on validation set.  
+The fused 4-mic input to the CNN raises mAP by ~0.40, from a mean of ~0.60 across individual channels to ~1.00. The Batear algorithm also benefits phase aligned channel fusion.  
 CNN results may shift with additional application-specific target HW data and scenarios.  
 
 <img src="images/pr_curve_4ch_tdoa_naive.png" width="100%">
