@@ -75,7 +75,7 @@ Output shape [ 1 ]
 
 Current model configurations translate to a latency of 20 * 1024 [samples] @16kHz = 1.28s.    
 Model inference and spectrogram add 1.38ms per call.  
-Phase alignment adds ~700ms per call).    
+Phase alignment adds ~700ms per call.    
 
 TFLite model size 424KB. TFLite conversion reduces model size by ~8x compared to the Pytorch float model <sup>*</sup>.  
 
