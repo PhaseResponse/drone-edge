@@ -98,7 +98,7 @@ CNN f1-score is significantly higher than Batear, although Batear is evaluated a
 The fused 4-mic input to the CNN raises mAP by ~0.40, from a mean of ~0.60 across individual channels to ~1.00. The Batear algorithm also benefits from phase aligned channel fusion.
 CNN results may shift with additional application-specific target HW data and scenarios.  
 
-<img src="images/pr_curve_4ch.png" width="100%">
+<img src="images/pr_curve_4ch_tdoa_naive.png" width="100%">
 
 ## References
 [2] Batear by TN, founder of batear.io: https://github.com/batear-io/batear
