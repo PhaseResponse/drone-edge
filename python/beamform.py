@@ -15,11 +15,11 @@ import numpy as np
 from scipy.signal import spectrogram as sg
 from scipy.interpolate import interp1d
 from realtime_pipeline import combine_channels
-
+from scipy.signal import butter, filtfilt
 
 #--- user configurable parameters ------------#
-MAX_LAG = 5               # beamforming max estimated delay [samples]
-
+MAX_LAG = 5               # max delay between channels [samples]
+HIGHPASS_CUTOFF = 30      # noise floor [Hz]
 
 
 def combine_channels_beamform(buffer, max_lag=MAX_LAG, verbose=False):
@@ -50,6 +50,7 @@ def estimate_delay_subsample(ref, sig, max_lag=MAX_LAG):
 def align_channels(buffer, channels=None, max_lag=MAX_LAG, segment_index=None, 
                    total_segments=None, verbose=False):
     """buffer: (n_samples, n_channels) -> aligned channels (n_samples, n_channels)."""
+    buffer = filtfilt(*butter(4, HIGHPASS_CUTOFF/(16000/2), btype='high'), buffer, axis=0)
     if channels is None:
         channels = list(range(buffer.shape[1]))
     ref = buffer[:, channels[0]]
