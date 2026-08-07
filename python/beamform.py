@@ -3,12 +3,10 @@ raw 4ch buffer
         |
         v
   align_channels()   --> phase-aligned channels
-  (uses estimate_delay_subsample() per channel)
+  uses estimate_delay_subsample() per channel and fractional_shift()
         |
         v
   combine_channels_beamform()  --> combined mono signal
-
-  estimate_doa_3d()  --> 3D direction of arrival (unit vector), given known mic positions
 """
 
 import numpy as np
@@ -77,23 +75,6 @@ def fractional_shift(sig, delay):
     return interp(idx + delay)
 
 
-def estimate_doa_3d(delays_samples, mic_positions_m, fs, reference_channel=0, speed_of_sound=343.0):
-    """Estimate 3D direction of arrival (unit vector) from delays measured
-    relative to reference_channel.
-    delays_samples: dict {channel_index: delay_samples}, one entry per non-reference mic.
-    mic_positions_m: dict {channel_index: [x, y, z]} for all mics, in meters.
-    reference_channel: which channel index is the reference (delay = 0).
-    Returns unit vector (x, y, z) pointing toward the source (far-field)."""
-    ref_pos = np.array(mic_positions_m[reference_channel])
-    other_channels = [ch for ch in mic_positions_m if ch != reference_channel]
-    rel_positions = np.array([mic_positions_m[ch] for ch in other_channels]) - ref_pos
-    tdoa_s = np.array([delays_samples[ch] for ch in other_channels]) / fs
-    rhs = speed_of_sound * tdoa_s
-    u, *_ = np.linalg.lstsq(rel_positions, rhs, rcond=None)
-    norm = np.linalg.norm(u)
-    if norm > 0:
-        u = u / norm
-    return u
 
     
   

@@ -1,18 +1,18 @@
 """
 input audio samples (n, 4ch)
         |
-        v
-  sliding_windows()  --> list of (N_SEGMENT, 4) windows   
-  [NOT INCLUDED]
+        v  
+  sliding_windows()      --> (N_SEGMENT, 4) windows   
+    [NOT INCLUDED]
         |
         v
-   combine_channels()   --> combined mono signal
+  combine_channels()     --> combined mono signal
         |
         v
-samples_to_spectrogram()  --> spectrogram, clipped and normalized [0,1]
+samples_to_spectrogram() --> spectrogram, clipped and normalized [0,1]
         |
         v
-   [ CNN model ]      --> score
+   [ CNN model ]         --> score
         |
         v
     [threshold]
@@ -23,14 +23,17 @@ samples_to_spectrogram()  --> spectrogram, clipped and normalized [0,1]
 
 import numpy as np
 from scipy.signal import spectrogram as sg
+from scipy.interpolate import interp1d
 
 #--- user configurable parameters ------------#
-DETECTION_THRESHOLD = 0.974  # drone/no-drone detection threshold, 6 on level_to_threshold scale
+DETECTION_THRESHOLD = 0.996  # drone/no-drone detection threshold, 6 on level_to_threshold scale
 
 N_FFT_HOPS = 4            # hop size in units of N_FFT. Default 256ms.  Used in sliding_windows [NOT INCLUDED]
+
 TARGET_RMS = 0.1          # mic fusion target RMS level (relative to full scale)
 MAX_GAIN = 3.0            # mic fusion gain multiplier
-COMP_THRESHOLD = 0.9      # compression threshold 
+COMP_THRESHOLD = 0.9      # mic fusion compression threshold 
+
 
 #--- model pre processing parameters used in training ------------#
 CEILING = 1.0             # signal max after fusion
@@ -44,7 +47,7 @@ VMAX = -80                # spectrogram max power [dB]
 
 N_SEGMENT = N_FFT * 20    # samples per segment. 1.28s @ 16kHz. Used in sliding_windows [NOT INCLUDED]
 
-
+    
 def combine_channels(buffer, channels=None):
     """buffer: (n_samples,) or (n_samples, n_channels) -> combined mono (n_samples,)"""
     if buffer.ndim == 1:
@@ -82,8 +85,8 @@ def is_drone(logit, threshold=DETECTION_THRESHOLD):
     return score >= threshold
 
 
-def level_to_threshold(level, breakpoint_level=5, t_low=0.5, t_mid=0.97, t_high=0.999, 
-                       power_low=1.5, power_high=1.2
+def level_to_threshold(level, breakpoint_level=2, t_low=0.5, t_mid=0.97, t_high=0.999, 
+                       power_low=1.5, power_high=1.16
                        ):
     """level: 0-10 knob scale for threshold, finer resolution t_mid to t_high """
     if level <= breakpoint_level:
