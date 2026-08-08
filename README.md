@@ -75,7 +75,7 @@ Output shape [ 1 ]
 
 Current model configurations translate to a latency of 20 * 1024 [samples] @16kHz = 1.28s.    
 Model inference and spectrogram add 1.38ms per call.  
-Phase alignment adds ~700ms per call.    
+Phase alignment adds ~700ms per call (before optimization/parallelization).    
 
 TFLite model size 424KB. TFLite conversion reduces model size by ~8x compared to the Pytorch float model <sup>*</sup>.  
 
@@ -84,9 +84,9 @@ TFLite model size 424KB. TFLite conversion reduces model size by ~8x compared to
 | Batear                       |   0.85 ms         |   -       |
 | CNN (pytorch float)          |   1.38 ms         | 3.35 MB   |
 | CNN (pytorch quantized       |   1.37 ms         | 1.77 MB   |
+| CNN (TFLite)                 |     -             |  424 KB   |  
 | Naive channel fusion         |   0.09 ms         |   -       |
 | Phase aligned channel fusion | 722.53 ms         |   -       |
-| CNN (TFLite)                 |     -             |  424 KB   |  
 
 _CNN timing includes spectrogram computation.  Timing measured on CPU._  
 _<sup>*</sup> Pytorch model memory estimated by torchinfo, includes model weights, input tensor, and forward-pass activations._

@@ -2,11 +2,15 @@
 raw 4ch buffer
         |
         v
-  align_channels()   --> phase-aligned channels
-  uses estimate_delay_subsample() per channel and fractional_shift()
+combine_channels_beamform()
+        |
+        +-- calls align_channels()
+        |      (which uses estimate_delay_subsample() and fractional_shift())
+        |
+        +-- calls combine_channels()
         |
         v
-  combine_channels_beamform()  --> combined mono signal
+   combined mono signal
 """
 
 import numpy as np
