@@ -33,12 +33,8 @@ def combine_channels_beamform(buffer, max_lag=MAX_LAG, verbose=False):
 def estimate_delay_subsample(ref, sig, max_lag=MAX_LAG):
     """Cross-correlation delay estimate with sub-sample precision via
     parabolic interpolation around the correlation peak."""
-    corr = np.correlate(sig, ref, mode='full')
-    lags = np.arange(-len(ref) + 1, len(sig))
-    mask = (lags >= -max_lag) & (lags <= max_lag)
-    corr = corr[mask]
-    lags = lags[mask]
-
+    lags = np.arange(-max_lag, max_lag + 1)
+    corr = np.array([np.dot(ref, np.roll(sig, -lag)) for lag in lags])
     peak_idx = np.argmax(corr)
     if peak_idx == 0 or peak_idx == len(corr) - 1:
         return float(lags[peak_idx])  # peak at edge, can't interpolate
