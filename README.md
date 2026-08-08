@@ -97,7 +97,7 @@ _<sup>*</sup> Pytorch model memory estimated by torchinfo, includes model weight
 * PR curves show that CNN mAP 0.998 substantially outperforms classical mAP on the same 4-channel test set. 
 * CNN f1-score is also significantly higher than the classical algorithm, although the latter is evaluated at default threshold while the CNN threshold is tuned on a validation set.  
 * Channel fusion raises CNN mAP by ~0.40, from a mean of ~0.60 across individual channels to ~1.00, where mAP is further increased by phase alignment compared to a naive sum.  
-* At the operating point of 0% false alarms, phase alignment raises CNN hit rate from 53.6% to 94.7%, while FA rate at max recall stays unchanged at 9.1%.  
+* At the operating point of 0% false alarms, phase alignment raises CNN hit rate from 59.6% to 94.7%, while FA rate at max recall drops from 11.4 to 9.1%.  
 * The classical algorithm also benefits from phase alignment.    
 * CNN results may shift with additional application-specific target HW data and scenarios.  
 
