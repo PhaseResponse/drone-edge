@@ -88,7 +88,7 @@ TFLite model size 424KB. TFLite conversion reduces model size by ~8x compared to
 | Naive channel fusion         |   0.09 ms         |   -       |
 | Phase aligned channel fusion |  12.57 ms         |   -       |
 
-_CNN timing includes spectrogram computation.  Timing measured on CPU._  
+_CNN timing includes spectrogram computation.  Timing measured on Apple M1 CPU._  
 _<sup>*</sup> Pytorch model memory estimated by torchinfo, includes model weights, input tensor, and forward-pass activations._
 
 ## classification results
@@ -101,7 +101,7 @@ _<sup>*</sup> Pytorch model memory estimated by torchinfo, includes model weight
 * The classical algorithm also benefits from phase alignment.    
 * CNN results may shift with additional application-specific target HW data and scenarios.  
 
-<img src="images/pr_curve_4ch_tdoa_naive_v1.png" width="100%">
+<img src="images/pr_curve_4ch_tdoa_naive_v2.png" width="100%">
 
 ## References
 [2] Batear by TN, founder of batear.io: https://github.com/batear-io/batear
