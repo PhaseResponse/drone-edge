@@ -3,7 +3,7 @@ calibration.py
 
 Solves the mic array geometry from GPIO-impulse calibration recordings.
 
-Method (matches the Lindekin post derivation https://lnkd.in/p/dy7qR_pf:
+Method matches the Lindekin post https://lnkd.in/p/dy7qR_pf:
     ||x_i - s_n|| = c * (t_ni - t_delta)
 
     x_i : mic i's position (unknown, solved for)
@@ -13,7 +13,7 @@ Method (matches the Lindekin post derivation https://lnkd.in/p/dy7qR_pf:
              known-distance recording, NOT solved for jointly, solving it jointly
              was tested and found numerically fragile/ill-conditioned).
 
-Minimum n >= 6 non-coplanar recordings. Use more for redundancy.
+Minimum n >= 7 non-coplanar recordings. Use more for redundancy.
 """
 
 import numpy as np
@@ -284,7 +284,8 @@ POSITION_GUESSES = {
     "pos3.wav": {"direction": "mic3",       "distance_m": 0.80, "from_mic": 3},
     "pos4.wav": {"direction": "mic0_mic1",  "distance_m": 0.65, "from_mic": 0},
     "pos5.wav": {"direction": "mic0_mic2",  "distance_m": 0.90, "from_mic": 2},
-    # add more positions as needed (n >= 6 total)
+    "pos7.wav": {"direction": "mic1_mic2", "distance_m": 0.75, "from_mic": 1},
+    # add more positions as needed (n >= 7 total)
 }
 
 # Which recording + which mic + the CAREFULLY measured distance (to the
