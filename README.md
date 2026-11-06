@@ -106,3 +106,10 @@ _<sup>*</sup> Pytorch model memory estimated by torchinfo, includes model weight
 ## References
 [2] Batear by TN, founder of batear.io: https://github.com/batear-io/batear
 
+## Tests
+
+Run the preprocessing contract tests with unittest:
+
+```bash
+python3 -m unittest discover -s tests -v
+```
