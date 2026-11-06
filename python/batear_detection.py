@@ -278,6 +278,9 @@ def process_file(wav_path, hop_size=None):
         psd      = (np.abs(spectrum) ** 2) / FFT_SIZE
         t        = (start + FFT_SIZE // 2) / fs
 
+        h2_ratio = 0.0
+        h3_ratio = 0.0
+
         if rms < RMS_MIN:
             ema_conf *= (1 - EMA_ALPHA)
             harm_ok = False
@@ -285,8 +288,6 @@ def process_file(wav_path, hop_size=None):
             f0 = 0.0
         else:
             r = analyze_harmonics(psd)
-            h2_ratios.append(r['h2_ratio'] if r is not None else 0.0)
-            h3_ratios.append(r['h3_ratio'] if r is not None else 0.0)
             if r is None:
                 harm_ok = False
                 conf    = 0.0
@@ -295,6 +296,8 @@ def process_file(wav_path, hop_size=None):
                 harm_ok = r['detected']
                 conf    = r['confidence']
                 f0      = r['fundamental_hz']
+                h2_ratio = r['h2_ratio']
+                h3_ratio = r['h3_ratio']
 
             if harm_ok:
                 ema_conf = EMA_ALPHA * conf + (1 - EMA_ALPHA) * ema_conf
@@ -322,6 +325,8 @@ def process_file(wav_path, hop_size=None):
         confidences.append(ema_conf)
         detections.append(harm_ok)
         fundamentals.append(f0)
+        h2_ratios.append(h2_ratio)
+        h3_ratios.append(h3_ratio)
         alarms.append(alarm_active)
 
     return dict(
